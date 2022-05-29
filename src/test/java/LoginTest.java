@@ -27,8 +27,8 @@ public class LoginTest {
         CreateUserRequest createUserRequest = CreateUserRequest.generateRandomUser();
         Response response = userApi.createUser(createUserRequest);
         token = userApi.getAccessToken(response);
-        email = createUserRequest.email;
-        password = createUserRequest.password;
+        email = createUserRequest.getEmail();
+        password = createUserRequest.getPassword();
         //для запуска тестов в Яндекс браузере - убрать комментарий
         //System.setProperty("webdriver.chrome.driver", "src/main/resources/yandexdriver.exe");
         Configuration.browserSize = "1920x1080";

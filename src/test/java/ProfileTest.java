@@ -16,22 +16,30 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.junit.Assert.assertTrue;
 
 public class ProfileTest {
-    public UserApi userApi;
-    public String token;
-    public String email;
-    public String password;
+    UserApi userApi;
+    String token;
+    String email;
+    String password;
+    MainPage mainPage;
+    LoginPage loginPage;
+    ProfilePage profilePage;
 
     @Before
     public void setup() {
+        //для запуска тестов в Яндекс браузере - убрать комментарий
+        //System.setProperty("webdriver.chrome.driver", "src/main/resources/yandexdriver.exe");
         userApi = new UserApi();
         CreateUserRequest createUserRequest = CreateUserRequest.generateRandomUser();
         Response response = userApi.createUser(createUserRequest);
         token = userApi.getAccessToken(response);
-        email = createUserRequest.email;
-        password = createUserRequest.password;
-        //для запуска тестов в Яндекс браузере - убрать комментарий
-        //System.setProperty("webdriver.chrome.driver", "src/main/resources/yandexdriver.exe");
+        email = createUserRequest.getEmail();
+        password = createUserRequest.getPassword();
         Configuration.browserSize = "1920x1080";
+        mainPage = open(MainPage.URL, MainPage.class);
+        mainPage.clickLoginButton();
+        loginPage = page(LoginPage.class);
+        loginPage.login(email, password);
+        profilePage = page(ProfilePage.class);
     }
 
     @After
@@ -43,11 +51,6 @@ public class ProfileTest {
     @Test
     @DisplayName("Checking user can go to person area")
     public void checkTransitionPersonAreaTest() {
-        MainPage mainPage = open(MainPage.URL, MainPage.class);
-        mainPage.clickLoginButton();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.login(email, password);
-        ProfilePage profilePage = page(ProfilePage.class);
         profilePage.clickLinkPersonalAccount();
         assertTrue("It's not profile page", profilePage.isProfilePage());
     }
@@ -55,11 +58,6 @@ public class ProfileTest {
     @Test
     @DisplayName("Checking logout user")
     public void checkLogoutUserTest() {
-        MainPage mainPage = open(MainPage.URL, MainPage.class);
-        mainPage.clickLoginButton();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.login(email, password);
-        ProfilePage profilePage = page(ProfilePage.class);
         profilePage.clickLinkPersonalAccount();
         profilePage.clickLogoutButton();
         assertTrue("It's not login page", loginPage.isLoginPage());
@@ -68,11 +66,6 @@ public class ProfileTest {
     @Test
     @DisplayName("Checking user can go to main page by click constructor button")
     public void checkGoToMainPageByConstructorButtonTest() {
-        MainPage mainPage = open(MainPage.URL, MainPage.class);
-        mainPage.clickLoginButton();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.login(email, password);
-        ProfilePage profilePage = page(ProfilePage.class);
         profilePage.clickLinkPersonalAccount();
         profilePage.clickLinkBuilder();
         assertTrue("It's not create order page", mainPage.isCreateOrderButton());
@@ -81,11 +74,6 @@ public class ProfileTest {
     @Test
     @DisplayName("Checking user can go to main page by click on the logo")
     public void checkGoToMainPageByLogoTest() {
-        MainPage mainPage = open(MainPage.URL, MainPage.class);
-        mainPage.clickLoginButton();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.login(email, password);
-        ProfilePage profilePage = page(ProfilePage.class);
         profilePage.clickLinkPersonalAccount();
         profilePage.clickLinkLogo();
         assertTrue("It's not create order page", mainPage.isCreateOrderButton());

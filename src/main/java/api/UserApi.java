@@ -3,6 +3,7 @@ package api;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
+import static api.EndpointsUserApi.*;
 
 public class UserApi extends Base {
     @Step("Create new user")
@@ -11,7 +12,7 @@ public class UserApi extends Base {
                 .spec(getBaseSpec())
                 .body(createUserRequest)
                 .when()
-                .post(EndpointsUserApi.POST_REGISTER_CUSTOMER);
+                .post(POST_REGISTER_CUSTOMER);
     }
 
     @Step("Get accessToken user")
@@ -32,7 +33,7 @@ public class UserApi extends Base {
                 .spec(getBaseSpec())
                 .auth().oauth2(token)
                 .when()
-                .delete(EndpointsUserApi.DELETE_CUSTOMER).then()
+                .delete(DELETE_CUSTOMER).then()
                 .statusCode(202);
     }
 

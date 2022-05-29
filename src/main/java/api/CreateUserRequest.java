@@ -2,10 +2,10 @@ package api;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class CreateUserRequest {
-    public String email;
-    public String password;
-    public String name;
-    public static final String EMAIL_POSTFIX = "@yandex.ru";
+    private String email;
+    private String password;
+    private String name;
+
 
 
     public CreateUserRequest() {
@@ -17,26 +17,36 @@ public class CreateUserRequest {
         this.name = name;
     }
 
-    public CreateUserRequest setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
-    public CreateUserRequest setPassword(String password) {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
-    public CreateUserRequest setName(String name) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setName(String name) {
         this.name = name;
-        return this;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public static CreateUserRequest generateRandomUser() {
-        final String email = RandomStringUtils.randomAlphabetic(10) + EMAIL_POSTFIX;
-        final String password = RandomStringUtils.randomAlphabetic(10);
-        final String name = RandomStringUtils.randomAlphabetic(10);
-        return new CreateUserRequest(email, password, name);
+        CreateUserRequest createUserRequest = new CreateUserRequest();
+        createUserRequest.setEmail(RandomStringUtils.randomAlphabetic(10) + "@yandex.ru");
+        createUserRequest.setPassword(RandomStringUtils.randomAlphabetic(10));
+        createUserRequest.setName(RandomStringUtils.randomAlphabetic(10));
+        return createUserRequest;
     }
 
 
