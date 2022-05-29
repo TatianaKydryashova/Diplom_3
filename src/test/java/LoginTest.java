@@ -16,10 +16,10 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.Selenide.*;
 
 public class LoginTest {
-    public UserApi userApi;
-    public String token;
-    public String email;
-    public String password;
+    UserApi userApi;
+    String token;
+    String email;
+    String password;
 
     @Before
     public void setup() {
